@@ -5,11 +5,19 @@ Please note that in case that you use another board the configuration will not b
 
 In order to make it work, the connection among the board and the screen must be the following:
 BOARD ---  SCREEN
-PA2   ---  CLK 
+
+PA2   ---  CLK
+
 PA3   ---  CE
+
 PA4   ---  BL
+
 PA5   ---  DIN
+
 PA6   ---  DC
+
 PA7   ---  RST
+
 3.3V  ---  VCC
+
 GND   ---  GND
