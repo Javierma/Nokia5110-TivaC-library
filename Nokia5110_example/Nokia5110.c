@@ -66,7 +66,7 @@ void lcd_write(enum typeOfWrite type,char message)
 }
 
 /**
- * Writes a character on the screen. Available for English and Spanish. There is an issue with Spanish characters 'Ñ' and 'ñ' that will be solved in future releases
+ * Writes a character on the screen. Available for English and Spanish.
  */
 void char_write(char character)
 {
@@ -718,6 +718,17 @@ void char_write(char character)
 						lcd_write(DATA,0x00);
 						break;
 					}
+					case 'ñ':
+					{
+						//ñ
+						lcd_write(DATA,0xF4);
+						lcd_write(DATA,0x22);
+						lcd_write(DATA,0x16);
+						lcd_write(DATA,0x14);
+						lcd_write(DATA,0xE2);
+						lcd_write(DATA,0x00);
+						break;
+					}
 				}
 			}
 			else
@@ -851,17 +862,6 @@ void char_write(char character)
 							lcd_write(DATA,0x80);
 							lcd_write(DATA,0x82);
 							lcd_write(DATA,0xF8);
-							lcd_write(DATA,0x00);
-							break;
-						}
-						case 'ñ':
-						{
-							//ñ
-							lcd_write(DATA,0xF4);
-							lcd_write(DATA,0x22);
-							lcd_write(DATA,0x16);
-							lcd_write(DATA,0x14);
-							lcd_write(DATA,0xE2);
 							lcd_write(DATA,0x00);
 							break;
 						}
