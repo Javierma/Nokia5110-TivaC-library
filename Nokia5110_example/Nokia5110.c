@@ -1420,7 +1420,7 @@ void enable_backlight(short SSI)
 /**
  * Sets backlight off
  */
-void disable_backlight(void)
+void disable_backlight(short SSI)
 {
 	switch(SSI)
 	{
