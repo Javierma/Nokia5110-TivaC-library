@@ -23,14 +23,14 @@
 int main(void)
 {
 	SysTick_Init();
-	startSSI0();
-	initialize_screen(BACKLIGHT_ON,SSI0);
+	startSSI2();
+	initialize_screen(BACKLIGHT_ON,SSI2);
 	int i;
 	while(1)
 	{
-		clear_screen(SSI0);
-		screen_write("Hello\nMaría!",ALIGN_CENTRE_CENTRE,SSI0);
-		SysTick_Wait50ms(50);
+		clear_screen(SSI2);
+		screen_write("Hello\nMaría!",ALIGN_CENTRE_CENTRE,SSI2);
+		SysTick_Wait50ms(5);
 	}
 	return 0;
 }

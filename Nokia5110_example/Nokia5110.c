@@ -1415,6 +1415,7 @@ void enable_backlight(short SSI)
 			GPIO_PORTD_DATA_R&=~0x04;
 			break;
 		}
+	}
 }
 
 /**
@@ -1444,6 +1445,7 @@ void disable_backlight(short SSI)
 			GPIO_PORTD_DATA_R|=0x04;
 			break;
 		}
+	}
 }
 
 
@@ -1692,18 +1694,17 @@ void startSSI0()//This one works
 {
 	  volatile unsigned long delay;
 	  SYSCTL_RCGC2_R |= 0x00000001;   		//  activate clock for Port A
-	  SYSCTL_RCGCSSI_R|=0x1;		  		//  activate clock for SSI0
+	  SYSCTL_RCGCSSI_R|=SYSCTL_RCGCSSI_R0;		  		//  activate clock for SSI0
 	  delay = SYSCTL_RCGC2_R;         		//  allow time for clock to stabilize
-	  GPIO_PORTA_DIR_R |= 0xD0;             // make PA6,7 out
+	  GPIO_PORTA_DIR_R |= 0xD0;             // make PA4,6,7 out
 	  GPIO_PORTA_AFSEL_R |= 0x2C;           // enable alt funct on PA2,3,5
 	  GPIO_PORTA_AFSEL_R &= ~0xC0;          // disable alt funct on PA6,7
-	  GPIO_PORTA_DEN_R |= 0xFC;             // enable digital I/O on PA2,3,5,6,7
+	  GPIO_PORTA_DEN_R |= 0xFC;             // enable digital I/O on PA2,3,4,5,6,7
 	                                        // configure PA2,3,5 as SSI
 	  GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0xFF0F00FF)+0x00202200;
 	                                        // configure PA6,7 as GPIO
 	  GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0x00FFFFFF)+0x00000000;
-	  GPIO_PORTA_AMSEL_R &= ~0xFC;          // disable analog functionality on PA2,3,5,6,7
-	  //SYSCTL_RCGCSSI_R|=0x1;		  // 2) activate clock for SSI0
+	  GPIO_PORTA_AMSEL_R &= ~0xFC;          // disable analog functionality on PA2,3,4,5,6,7
 	  SSI0_CR1_R&=~SSI_CR1_SSE;		  // 3)Disable SSI while configuring it
 	  SSI0_CR1_R&=~SSI_CR1_MS;		  // 4) Set as Master
 	  SSI0_CC_R|=SSI_CC_CS_M; // 5) Configure clock source
@@ -1727,7 +1728,6 @@ void startSSI1()
 {
 	  volatile unsigned long delay;
 	  SYSCTL_RCGC2_R |= 0x30;   		// activate clock for Port E and Port F
-	  SYSCTL_RCGC1_R |= SYSCTL_RCGC1_SSI1;
 	  SYSCTL_RCGCSSI_R|=SYSCTL_RCGCSSI_R1;	// activate clock for SSI1
 	  delay = SYSCTL_RCGC2_R;         		// allow time for clock to stabilize
 
@@ -1771,29 +1771,27 @@ void startSSI2()
 {
 	  volatile unsigned long delay;
 	  SYSCTL_RCGC2_R |= 0x00000002;   //  activate clock for Port B
-
 	  SYSCTL_RCGCSSI_R|=SYSCTL_RCGCSSI_R2;	// activate clock for SSI2
 	  delay = SYSCTL_RCGC2_R;         //    allow time for clock to stabilize
 	  GPIO_PORTB_LOCK_R=0x4C4F434B;
 	  GPIO_PORTB_CR_R=0x0C;
 	  GPIO_PORTB_DIR_R |= 0x4C;             // make PB2, PB3 and PB6 out
 	  GPIO_PORTB_AFSEL_R |= 0xB0;           // enable alt funct on PB4,PB5 and PB7
-	  GPIO_PORTB_AFSEL_R &= ~0xB0;          // disable alt funct on PB6
 	  GPIO_PORTB_DEN_R |= 0xFC;             // enable digital I/O on PB2,PB3,PB4,PB5,PB6 and PB7
 	                                        // configure PB4,PB5 and PB7 as SSI
 	  GPIO_PORTB_PCTL_R = (GPIO_PORTB_PCTL_R&0x0F00FFFF)+0x20220000;
-	                                        // configure PB3 and PB6 as GPIO
-	  GPIO_PORTB_PCTL_R = (GPIO_PORTB_PCTL_R&0xF0FF00FF)+0x00000000;
+	                                        // configure PB2 and PB3 as GPIO
+	  GPIO_PORTB_PCTL_R = (GPIO_PORTB_PCTL_R&0xFFFF00FF)+0x00000000;
 	  GPIO_PORTB_AMSEL_R &= ~0xFC;          // disable analog functionality from PB2 to PB7
-	  SSI2_CR1_R&=~SSI_CR1_SSE;		  // Disable SSI while configuring it
-	  SSI2_CR1_R&=~SSI_CR1_MS;		  //  Set as Master
-	  SSI2_CC_R|=SSI_CC_CS_M; //  Configure clock source
-	  SSI2_CC_R|=SSI_CC_CS_SYSPLL; //  Configure clock source
-	  SSI2_CC_R|=SSI_CPSR_CPSDVSR_M;//  Configure prescale divisor
+	  SSI2_CR1_R&=~SSI_CR1_SSE;		  // 3)Disable SSI while configuring it
+	  SSI2_CR1_R&=~SSI_CR1_MS;		  // 4) Set as Master
+	  SSI2_CC_R|=SSI_CC_CS_M; // 5) Configure clock source
+	  SSI2_CC_R|=SSI_CC_CS_SYSPLL; // 5) Configure clock source
+	  SSI2_CC_R|=SSI_CPSR_CPSDVSR_M;// 6) Configure prescale divisor
 	  SSI2_CPSR_R = (SSI2_CPSR_R&~SSI_CPSR_CPSDVSR_M)+2; // must be even number
 	  SSI2_CR0_R |=0x7000;
 	  SSI2_CR0_R &= ~(SSI_CR0_SPH | SSI_CR0_SPO);
-	  //SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CR0_SCR_M)+7; // must be even number
+	  //SSI2_CPSR_R = (SSI2_CPSR_R&~SSI_CR0_SCR_M)+7; // must be even number
 	  SSI2_CR0_R = (SSI2_CR0_R&~SSI_CR0_FRF_M)+SSI_CR0_FRF_MOTO;
 	                                        // DSS = 8-bit data
 	  SSI2_CR0_R = (SSI2_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
@@ -1815,54 +1813,37 @@ void startSSI2()
  */
 void startSSI3()
 {
-	  volatile unsigned long delay;
-	  SYSCTL_RCGC2_R |= 0x00000008;   		// activate clock for Port D
-	  SYSCTL_RCGC1_R|=SYSCTL_RCGC1_SSI1;	// activate clock for SSI3
-	  SYSCTL_RCGCSSI_R|=SYSCTL_RCGCSSI_R3;	// activate clock for SSI3
-	  delay = SYSCTL_RCGC2_R;         		// allow time for clock to stabilize
-	  GPIO_PORTD_LOCK_R=0x4C4F434B;
-	  GPIO_PORTD_CR_R=0x80;
-	  GPIO_PORTD_DIR_R |= 0xC4;             // make PD2, PD6 and PD7 out
-	  GPIO_PORTD_AFSEL_R |= 0x0B;           // enable alt funct on PD0, PD1 and PD3
-	  GPIO_PORTD_AFSEL_R &= ~0xF4;          // disable alt funct on PD2 and from PD4 to PD7
-	  GPIO_PORTD_DEN_R |= 0xCF;             // enable digital I/O on PD0, PD1, PD2, PD3, PD6 and PD7
+	volatile unsigned long delay;
+	SYSCTL_RCGC2_R |= 0x00000008;   		// activate clock for Port D
+	SYSCTL_RCGCSSI_R|=SYSCTL_RCGCSSI_R3;	// activate clock for SSI3
+	delay = SYSCTL_RCGC2_R;         		// allow time for clock to stabilize
+	GPIO_PORTD_LOCK_R=0x4C4F434B;
+	GPIO_PORTD_CR_R=0x80;
+	GPIO_PORTD_DIR_R |= 0xC4;             // make PD2, PD6 and PD7 out
+	GPIO_PORTD_AFSEL_R |= 0x0B;           // enable alt funct on PD0, PD1 and PD3
+	GPIO_PORTD_AFSEL_R &= ~0xF4;          // disable alt funct on PD2 and from PD4 to PD7
+	GPIO_PORTD_DEN_R |= 0xCF;             // enable digital I/O on PD0, PD1, PD2, PD3, PD6 and PD7
       // configure PD0, PD1 and PD3 as SSI
- GPIO_PORTD_PCTL_R = (GPIO_PORTD_PCTL_R&0xFFFF0F00)+0x00001011;
+	GPIO_PORTD_PCTL_R = (GPIO_PORTD_PCTL_R&0xFFFF0F00)+0x00001011;
       // configure PD2 and from PD4 to PD7 as GPIO
-GPIO_PORTD_PCTL_R = (GPIO_PORTD_PCTL_R&0x0000F0FF)+0x00000000;
-	                                        // configure PD0, PD1 and PD3 as SSI
-	 /* GPIO_PORTD_PCTL_R = (GPIO_PORTD_PCTL_R&0xFFFF0F00)+0x00002022;
-	                                        // configure PD2 and from PD4 to PD7 as GPIO
-	  GPIO_PORTD_PCTL_R = (GPIO_PORTD_PCTL_R&0x0000F0FF)+0x00000000;*/
-	  GPIO_PORTD_AMSEL_R &= ~0xCF;          // disable analog functionality on PD0, PD1, PD2, PD3, PD6 and PD7
-	  SSI3_CR1_R&=~SSI_CR1_SSE;		  		// Disable SSI while configuring it
-	  SSI3_CR1_R&=~SSI_CR1_MS;		  		// Set as Master
-	  SSI3_CC_R|=SSI_CC_CS_M; 				// Configure clock source
-	  SSI3_CC_R|=SSI_CC_CS_SYSPLL; 			// Configure clock source
-	  SSI3_CC_R|=SSI_CPSR_CPSDVSR_M;		// Configure prescale divisor
-	  SSI3_CPSR_R = (SSI3_CPSR_R&~SSI_CPSR_CPSDVSR_M)+2; // must be even number
-	  SSI3_CR0_R |=0x7000;
-	  SSI3_CR0_R &= ~(SSI_CR0_SPH | SSI_CR0_SPO);
-	  //SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CR0_SCR_M)+7; // must be even number
-	  SSI3_CR0_R = (SSI3_CR0_R&~SSI_CR0_FRF_M)+SSI_CR0_FRF_MOTO;
-	                                        // DSS = 8-bit data
-	  SSI3_CR0_R = (SSI3_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
-	  SSI3_CR1_R|=SSI_CR1_SSE;		  // 3)Enable SSI
-//
-	  /*SYSCTL_RCGC2_R |= 0x00000001;   		//  activate clock for Port A
-	  //SYSCTL_RCGCSSI_R|=0x1;		  		//  activate clock for SSI0
-	  delay = SYSCTL_RCGC2_R;         		//  allow time for clock to stabilize
-	  GPIO_PORTA_DIR_R |= 0xC0;             // make PA6,7 out
-	  //GPIO_PORTA_AFSEL_R |= 0x2C;           // enable alt funct on PA2,3,5
-	  GPIO_PORTA_AFSEL_R &= ~0xFF;          // disable alt funct on PA6,7
-	  GPIO_PORTA_DEN_R |= 0xC0;             // enable digital I/O on PA2,3,5,6,7
-	  GPIO_PORTA_AMSEL_R &= ~0xCF;          // disable analog functionality on PD0, PD1, PD2, PD3, PD6 and PD7*/
-//
-	  RESET_SSI3 = RESET_LOW;                    // reset the LCD to a known state
-	  //GPIO_PORTD_DATA_R&=~0x40;
-	  for(delay=0; delay<10; delay=delay+1);// delay minimum 100 ns
-	  RESET_SSI3 = RESET_HIGH_SSI3;                   // negative logic
-	  //GPIO_PORTD_DATA_R|=0x40;
+	GPIO_PORTD_PCTL_R = (GPIO_PORTD_PCTL_R&0x0000F0FF)+0x00000000;
+	GPIO_PORTD_AMSEL_R &= ~0xCF;          // disable analog functionality on PD0, PD1, PD2, PD3, PD6 and PD7
+	SSI3_CR1_R&=~SSI_CR1_SSE;		  		// Disable SSI while configuring it
+	SSI3_CR1_R&=~SSI_CR1_MS;		  		// Set as Master
+	SSI3_CC_R|=SSI_CC_CS_M; 				// Configure clock source
+	SSI3_CC_R|=SSI_CC_CS_SYSPLL; 			// Configure clock source
+	SSI3_CC_R|=SSI_CPSR_CPSDVSR_M;		// Configure prescale divisor
+	SSI3_CPSR_R = (SSI3_CPSR_R&~SSI_CPSR_CPSDVSR_M)+2; // must be even number
+	SSI3_CR0_R |=0x7000;
+	SSI3_CR0_R &= ~(SSI_CR0_SPH | SSI_CR0_SPO);
+	//SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CR0_SCR_M)+7; // must be even number
+	SSI3_CR0_R = (SSI3_CR0_R&~SSI_CR0_FRF_M)+SSI_CR0_FRF_MOTO; // DSS = 8-bit data
+	SSI3_CR0_R = (SSI3_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
+	SSI3_CR1_R|=SSI_CR1_SSE;		  // 3)Enable SSI
+
+	RESET_SSI3 = RESET_LOW;                    // reset the LCD to a known state
+	for(delay=0; delay<10; delay=delay+1);// delay minimum 100 ns
+	RESET_SSI3 = RESET_HIGH_SSI3;                   // negative logic
 }
 
 unsigned short get_character_length(char character)

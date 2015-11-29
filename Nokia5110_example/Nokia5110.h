@@ -76,8 +76,8 @@ enum typeOfWrite{
 void clear_screen(short SSI);
 void lcd_write(enum typeOfWrite type,char message,short SSI);
 void char_write(char character,short SSI);
-void enable_backlight(void);
-void disable_backlight(void);
+void enable_backlight(short SSI);
+void disable_backlight(short SSI);
 void clear_columns(char ncolumns,short SSI);
 void fill_screen(short SSI);
 void screen_write(char string_to_write[],short alignment,short SSI);
