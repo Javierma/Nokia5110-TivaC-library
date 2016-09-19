@@ -1,6 +1,6 @@
 # Nokia5110-TivaC-library
 
-#New: Menus can be created 
+##New: Menus can be created 
 
 This is a library for the Nokia5110 screen using TM4C123GH6PM microcontroller. To test it, you can directly import the project (Nokia5110_example)in Code Composer Studio.
 
