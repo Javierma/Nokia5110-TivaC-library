@@ -1,32 +1,32 @@
 ******************************************************************************
                   TI ARM Linker PC v5.2.4                      
 ******************************************************************************
->> Linked Sun Nov 29 21:25:07 2015
+>> Linked Wed Sep 14 17:07:37 2016
 
 OUTPUT FILE NAME:   <Nokia5110_example.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00003741
+ENTRY POINT SYMBOL: "_c_int00"  address: 000041bd
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00040000  00003936  0003c6ca  R  X
-  SRAM                  20000000   00008000  00000340  00007cc0  RW X
+  FLASH                 00000000   00040000  000043c2  0003bc3e  R  X
+  SRAM                  20000000   00008000  000004f8  00007b08  RW X
 
 
 SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00003938   00003938    r-x
+00000000    00000000    000043c8   000043c8    r-x
   00000000    00000000    0000026c   0000026c    r-- .intvecs
-  0000026c    0000026c    00003692   00003692    r-x .text
-  00003900    00003900    00000038   00000038    r-- .cinit
-20000000    20000000    00000340   00000000    rw-
-  20000000    20000000    00000200   00000000    rw- .stack
-  20000200    20000200    00000128   00000000    rw- .bss
-  20000328    20000328    00000018   00000000    rw- .data
+  0000026c    0000026c    0000410e   0000410e    r-x .text
+  00004380    00004380    00000048   00000048    r-- .cinit
+20000000    20000000    000004f8   00000000    rw-
+  20000000    20000000    000002d4   00000000    rw- .bss
+  200002d4    200002d4    00000200   00000000    rw- .stack
+  200004d4    200004d4    00000024   00000000    rw- .data
 
 
 SECTION ALLOCATION MAP
@@ -37,72 +37,77 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    0000026c     
                   00000000    0000026c     tm4c123gh6pm_startup_ccs.obj (.intvecs)
 
-.text      0    0000026c    00003692     
-                  0000026c    00002f08     Nokia5110.obj (.text)
-                  00003174    000002d4     rtsv7M4_T_le_v4SPD16_eabi.lib : trgdrv.obj (.text)
-                  00003448    000000a0     main.obj (.text)
-                  000034e8    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.obj (.text)
-                  00003584    0000007a                                   : memset_t2.obj (.text)
-                  000035fe    00000002     --HOLE-- [fill = 0]
-                  00003600    0000006c                                   : autoinit.obj (.text)
-                  0000366c    0000006a                                   : copy_decompress_rle.obj (.text)
-                  000036d6    00000002     --HOLE-- [fill = 0]
-                  000036d8    00000068                                   : trgmsg.obj (.text)
-                  00003740    00000050                                   : boot.obj (.text)
-                  00003790    0000004c                                   : cpy_tbl.obj (.text)
-                  000037dc    0000004c                                   : rand.obj (.text)
-                  00003828    00000044                                   : exit.obj (.text)
-                  0000386c    00000018                                   : args_main.obj (.text)
-                  00003884    00000014                                   : _lock.obj (.text)
-                  00003898    00000014                                   : strcpy.obj (.text)
-                  000038ac    00000014                                   : strlen.obj (.text)
-                  000038c0    0000000e                                   : copy_decompress_none.obj (.text:decompress:none)
-                  000038ce    0000000e                                   : time.obj (.text)
-                  000038dc    0000000c                                   : copy_zero_init.obj (.text:decompress:ZI)
-                  000038e8    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
-                  000038f4    00000006     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24)
-                  000038fa    00000004                                   : pre_init.obj (.text)
+.text      0    0000026c    0000410e     
+                  0000026c    00003194     Nokia5110.obj (.text)
+                  00003400    0000088e     main.obj (.text)
+                  00003c8e    00000002     --HOLE-- [fill = 0]
+                  00003c90    000002d4     rtsv7M4_T_le_v4SPD16_eabi.lib : trgdrv.obj (.text)
+                  00003f64    0000009c                                   : memcpy_t2.obj (.text)
+                  00004000    0000007a                                   : memset_t2.obj (.text)
+                  0000407a    00000002     --HOLE-- [fill = 0]
+                  0000407c    0000006c                                   : autoinit.obj (.text)
+                  000040e8    0000006a                                   : copy_decompress_rle.obj (.text)
+                  00004152    00000002     --HOLE-- [fill = 0]
+                  00004154    00000068                                   : trgmsg.obj (.text)
+                  000041bc    00000050                                   : boot.obj (.text)
+                  0000420c    0000004c                                   : cpy_tbl.obj (.text)
+                  00004258    0000004c                                   : rand.obj (.text)
+                  000042a4    00000044                                   : exit.obj (.text)
+                  000042e8    00000018                                   : args_main.obj (.text)
+                  00004300    00000014                                   : _lock.obj (.text)
+                  00004314    00000014                                   : strcpy.obj (.text)
+                  00004328    00000014                                   : strlen.obj (.text)
+                  0000433c    0000000e                                   : copy_decompress_none.obj (.text:decompress:none)
+                  0000434a    0000000e                                   : time.obj (.text)
+                  00004358    0000000c                                   : copy_zero_init.obj (.text:decompress:ZI)
+                  00004364    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
+                  00004370    00000006     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24)
+                  00004376    00000004                                   : pre_init.obj (.text)
 
-.cinit     0    00003900    00000038     
-                  00003900    00000013     (.cinit..data.load) [load image, compression = rle]
-                  00003913    00000001     --HOLE-- [fill = 0]
-                  00003914    0000000c     (__TI_handler_table)
-                  00003920    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  00003928    00000010     (__TI_cinit_table)
+.cinit     0    00004380    00000048     
+                  00004380    0000001e     (.cinit..data.load) [load image, compression = rle]
+                  0000439e    00000002     --HOLE-- [fill = 0]
+                  000043a0    0000000c     (__TI_handler_table)
+                  000043ac    00000004     --HOLE-- [fill = 0]
+                  000043b0    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  000043b8    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
-.stack     0    20000000    00000200     UNINITIALIZED
-                  20000000    00000200     --HOLE--
-
-.bss       0    20000200    00000128     UNINITIALIZED
-                  20000200    00000120     rtsv7M4_T_le_v4SPD16_eabi.lib : trgmsg.obj (.bss:__CIOBUF_)
-                  20000320    00000008     (.common:parmbuf)
+.bss       0    20000000    000002d4     UNINITIALIZED
+                  20000000    0000012c     Nokia5110.obj (.bss:menu_items)
+                  2000012c    00000120     rtsv7M4_T_le_v4SPD16_eabi.lib : trgmsg.obj (.bss:__CIOBUF_)
+                  2000024c    00000080     Nokia5110.obj (.bss:string)
+                  200002cc    00000008     (.common:parmbuf)
 
 .TI.noinit 
-*          0    20000200    00000000     UNINITIALIZED
+*          0    20000000    00000000     UNINITIALIZED
 
-.data      0    20000328    00000018     UNINITIALIZED
-                  20000328    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : _lock.obj (.data)
-                  20000330    00000008                                   : exit.obj (.data)
-                  20000338    00000004                                   : rand.obj (.data)
-                  2000033c    00000004                                   : stkdepth_vars.obj (.data)
+.stack     0    200002d4    00000200     UNINITIALIZED
+                  200002d4    00000200     --HOLE--
+
+.data      0    200004d4    00000024     UNINITIALIZED
+                  200004d4    0000000c     Nokia5110.obj (.data)
+                  200004e0    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : _lock.obj (.data)
+                  200004e8    00000008                                   : exit.obj (.data)
+                  200004f0    00000004                                   : rand.obj (.data)
+                  200004f4    00000004                                   : stkdepth_vars.obj (.data)
 
 .TI.persistent 
-*          0    20000328    00000000     UNINITIALIZED
+*          0    200004d4    00000000     UNINITIALIZED
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00003928 records: 2, size/record: 8, table size: 16
-	.data: load addr=00003900, load size=00000013 bytes, run addr=20000328, run size=00000018 bytes, compression=rle
-	.bss: load addr=00003920, load size=00000008 bytes, run addr=20000200, run size=00000128 bytes, compression=zero_init
+__TI_cinit_table @ 000043b8 records: 2, size/record: 8, table size: 16
+	.data: load addr=00004380, load size=0000001e bytes, run addr=200004d4, run size=00000024 bytes, compression=rle
+	.bss: load addr=000043b0, load size=00000008 bytes, run addr=20000000, run size=000002d4 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00003914 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 000043a0 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_rle24
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -112,91 +117,101 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                    
 -------   ----                    
-00003829  C$$EXIT                 
-00003707  C$$IO$$                 
-00003401  HOSTclock               
-000033c9  HOSTclose               
-0000338b  HOSTgetenv              
-0000332f  HOSTlseek               
-000032dd  HOSTopen                
-00003291  HOSTread                
-00003233  HOSTrename              
-000031f9  HOSTtime                
-000031c1  HOSTunlink              
-00003175  HOSTwrite               
-000038e9  ResetISR                
+000042a5  C$$EXIT                 
+00004183  C$$IO$$                 
+00003f1d  HOSTclock               
+00003ee5  HOSTclose               
+00003ea7  HOSTgetenv              
+00003e4b  HOSTlseek               
+00003df9  HOSTopen                
+00003dad  HOSTread                
+00003d4f  HOSTrename              
+00003d15  HOSTtime                
+00003cdd  HOSTunlink              
+00003c91  HOSTwrite               
+00004365  ResetISR                
 UNDEFED   SHT$$INIT_ARRAY$$Base   
 UNDEFED   SHT$$INIT_ARRAY$$Limit  
-000034b9  SysTick_Init            
-00003473  SysTick_Wait            
-00003493  SysTick_Wait50ms        
-20000200  __CIOBUF_               
-20000200  __STACK_END             
+000034a7  SysTick_Init            
+00003461  SysTick_Wait            
+00003481  SysTick_Wait50ms        
+2000012c  __CIOBUF_               
+200004d4  __STACK_END             
 00000200  __STACK_SIZE            
-20000200  __STACK_TOP             
-00003928  __TI_CINIT_Base         
-00003938  __TI_CINIT_Limit        
-00003914  __TI_Handler_Table_Base 
-00003920  __TI_Handler_Table_Limit
-00003601  __TI_auto_init          
-20000330  __TI_cleanup_ptr        
-000038c1  __TI_decompress_none    
-000038f5  __TI_decompress_rle24   
-20000334  __TI_dtors_ptr          
-0000370b  __TI_readmsg            
+200004d4  __STACK_TOP             
+000043b8  __TI_CINIT_Base         
+000043c8  __TI_CINIT_Limit        
+000043a0  __TI_Handler_Table_Base 
+000043ac  __TI_Handler_Table_Limit
+0000407d  __TI_auto_init          
+200004e8  __TI_cleanup_ptr        
+0000433d  __TI_decompress_none    
+00004371  __TI_decompress_rle24   
+200004ec  __TI_dtors_ptr          
+00004187  __TI_readmsg            
 00000000  __TI_static_base__      
-000036d9  __TI_writemsg           
-000038dd  __TI_zero_init          
-00003585  __aeabi_memclr          
-00003585  __aeabi_memclr4         
-00003585  __aeabi_memclr8         
-000034e9  __aeabi_memcpy          
-000034e9  __aeabi_memcpy4         
-000034e9  __aeabi_memcpy8         
-00003587  __aeabi_memset          
-00003587  __aeabi_memset4         
-00003587  __aeabi_memset8         
+00004155  __TI_writemsg           
+00004359  __TI_zero_init          
+00004001  __aeabi_memclr          
+00004001  __aeabi_memclr4         
+00004001  __aeabi_memclr8         
+00003f65  __aeabi_memcpy          
+00003f65  __aeabi_memcpy4         
+00003f65  __aeabi_memcpy8         
+00004003  __aeabi_memset          
+00004003  __aeabi_memset4         
+00004003  __aeabi_memset8         
 ffffffff  __binit__               
 ffffffff  __c_args__              
-20000000  __stack                 
-0000386d  _args_main              
-00003741  _c_int00                
-20000328  _lock                   
-00003893  _nop                    
-0000388b  _register_lock          
-00003885  _register_unlock        
-000038fb  _system_pre_init        
-2000032c  _unlock                 
-0000382d  abort                   
+200002d4  __stack                 
+000042e9  _args_main              
+000041bd  _c_int00                
+200004e0  _lock                   
+0000430f  _nop                    
+00004307  _register_lock          
+00004301  _register_unlock        
+00004377  _system_pre_init        
+200004e4  _unlock                 
+000042a9  abort                   
 ffffffff  binit                   
 000003f1  char_write              
 00002547  clear_columns           
 0000026d  clear_screen            
-00003791  copy_in                 
+0000420d  copy_in                 
+200004d5  cp                      
+00003175  create_menu             
 000024f3  disable_backlight       
 0000249f  enable_backlight        
-00003835  exit                    
+000042b1  exit                    
 0000257d  fill_screen             
+200004d4  first                   
 00000000  g_pfnVectors            
 00002ee1  get_character_length    
 0000239b  initialize_screen       
 0000029b  lcd_write               
-00003449  main                    
-2000033c  main_func_sp            
-000034e9  memcpy                  
-0000358d  memset                  
-000037f3  rand                    
+000034dd  logo_ieee               
+00003401  main                    
+200004f4  main_func_sp            
+200004dc  max                     
+00003f65  memcpy                  
+00004009  memset                  
+20000000  menu_items              
+200004d8  min                     
+0000426f  rand                    
 000025c5  screen_write            
 0000286b  set_Y_position_bottom   
 000028ff  set_Y_position_centre   
-000037dd  srand                   
+00003395  set_buttons_up_down     
+000031eb  show_menu               
+00004259  srand                   
 00002993  startSSI0               
 00002a99  startSSI1               
 00002bd7  startSSI2               
 00002d11  startSSI3               
-00003899  strcpy                  
-000038ad  strlen                  
-000038cf  time                    
+00004315  strcpy                  
+2000024c  string                  
+00004329  strlen                  
+0000434b  time                    
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -222,71 +237,81 @@ address   name
 00002bd7  startSSI2               
 00002d11  startSSI3               
 00002ee1  get_character_length    
-00003175  HOSTwrite               
-000031c1  HOSTunlink              
-000031f9  HOSTtime                
-00003233  HOSTrename              
-00003291  HOSTread                
-000032dd  HOSTopen                
-0000332f  HOSTlseek               
-0000338b  HOSTgetenv              
-000033c9  HOSTclose               
-00003401  HOSTclock               
-00003449  main                    
-00003473  SysTick_Wait            
-00003493  SysTick_Wait50ms        
-000034b9  SysTick_Init            
-000034e9  __aeabi_memcpy          
-000034e9  __aeabi_memcpy4         
-000034e9  __aeabi_memcpy8         
-000034e9  memcpy                  
-00003585  __aeabi_memclr          
-00003585  __aeabi_memclr4         
-00003585  __aeabi_memclr8         
-00003587  __aeabi_memset          
-00003587  __aeabi_memset4         
-00003587  __aeabi_memset8         
-0000358d  memset                  
-00003601  __TI_auto_init          
-000036d9  __TI_writemsg           
-00003707  C$$IO$$                 
-0000370b  __TI_readmsg            
-00003741  _c_int00                
-00003791  copy_in                 
-000037dd  srand                   
-000037f3  rand                    
-00003829  C$$EXIT                 
-0000382d  abort                   
-00003835  exit                    
-0000386d  _args_main              
-00003885  _register_unlock        
-0000388b  _register_lock          
-00003893  _nop                    
-00003899  strcpy                  
-000038ad  strlen                  
-000038c1  __TI_decompress_none    
-000038cf  time                    
-000038dd  __TI_zero_init          
-000038e9  ResetISR                
-000038f5  __TI_decompress_rle24   
-000038fb  _system_pre_init        
-00003914  __TI_Handler_Table_Base 
-00003920  __TI_Handler_Table_Limit
-00003928  __TI_CINIT_Base         
-00003938  __TI_CINIT_Limit        
-20000000  __stack                 
-20000200  __CIOBUF_               
-20000200  __STACK_END             
-20000200  __STACK_TOP             
-20000328  _lock                   
-2000032c  _unlock                 
-20000330  __TI_cleanup_ptr        
-20000334  __TI_dtors_ptr          
-2000033c  main_func_sp            
+00003175  create_menu             
+000031eb  show_menu               
+00003395  set_buttons_up_down     
+00003401  main                    
+00003461  SysTick_Wait            
+00003481  SysTick_Wait50ms        
+000034a7  SysTick_Init            
+000034dd  logo_ieee               
+00003c91  HOSTwrite               
+00003cdd  HOSTunlink              
+00003d15  HOSTtime                
+00003d4f  HOSTrename              
+00003dad  HOSTread                
+00003df9  HOSTopen                
+00003e4b  HOSTlseek               
+00003ea7  HOSTgetenv              
+00003ee5  HOSTclose               
+00003f1d  HOSTclock               
+00003f65  __aeabi_memcpy          
+00003f65  __aeabi_memcpy4         
+00003f65  __aeabi_memcpy8         
+00003f65  memcpy                  
+00004001  __aeabi_memclr          
+00004001  __aeabi_memclr4         
+00004001  __aeabi_memclr8         
+00004003  __aeabi_memset          
+00004003  __aeabi_memset4         
+00004003  __aeabi_memset8         
+00004009  memset                  
+0000407d  __TI_auto_init          
+00004155  __TI_writemsg           
+00004183  C$$IO$$                 
+00004187  __TI_readmsg            
+000041bd  _c_int00                
+0000420d  copy_in                 
+00004259  srand                   
+0000426f  rand                    
+000042a5  C$$EXIT                 
+000042a9  abort                   
+000042b1  exit                    
+000042e9  _args_main              
+00004301  _register_unlock        
+00004307  _register_lock          
+0000430f  _nop                    
+00004315  strcpy                  
+00004329  strlen                  
+0000433d  __TI_decompress_none    
+0000434b  time                    
+00004359  __TI_zero_init          
+00004365  ResetISR                
+00004371  __TI_decompress_rle24   
+00004377  _system_pre_init        
+000043a0  __TI_Handler_Table_Base 
+000043ac  __TI_Handler_Table_Limit
+000043b8  __TI_CINIT_Base         
+000043c8  __TI_CINIT_Limit        
+20000000  menu_items              
+2000012c  __CIOBUF_               
+2000024c  string                  
+200002d4  __stack                 
+200004d4  __STACK_END             
+200004d4  __STACK_TOP             
+200004d4  first                   
+200004d5  cp                      
+200004d8  min                     
+200004dc  max                     
+200004e0  _lock                   
+200004e4  _unlock                 
+200004e8  __TI_cleanup_ptr        
+200004ec  __TI_dtors_ptr          
+200004f4  main_func_sp            
 ffffffff  __binit__               
 ffffffff  __c_args__              
 ffffffff  binit                   
 UNDEFED   SHT$$INIT_ARRAY$$Base   
 UNDEFED   SHT$$INIT_ARRAY$$Limit  
 
-[85 symbols]
+[95 symbols]

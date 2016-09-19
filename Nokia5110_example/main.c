@@ -23,14 +23,60 @@
 int main(void)
 {
 	SysTick_Init();
-	startSSI2();
-	initialize_screen(BACKLIGHT_ON,SSI2);
+	startSSI0();
+	initialize_screen(BACKLIGHT_ON,SSI0);
 	int i;
+	int max=11,current_pos=0;
+	set_buttons_up_down();
+	unsigned char menu_elements[12][25];
+	menu_elements[0][0]='1';
+	menu_elements[0][1]=0x00;
+	menu_elements[1][0]='2';
+	menu_elements[1][1]=0x00;
+	menu_elements[2][0]='3';
+	menu_elements[2][1]=0x00;
+	menu_elements[3][0]='4';
+	menu_elements[3][1]=0x00;
+	menu_elements[4][0]='5';
+	menu_elements[4][1]=0x00;
+	menu_elements[5][0]='6';
+	menu_elements[5][1]=0x00;
+	menu_elements[6][0]='7';
+	menu_elements[6][1]=0x00;
+	menu_elements[7][0]='8';
+	menu_elements[7][1]=0x00;
+	menu_elements[8][0]='9';
+	menu_elements[8][1]=0x00;
+	menu_elements[9][0]='1';
+	menu_elements[9][1]='0';
+	menu_elements[9][2]=0x00;
+	menu_elements[10][0]='1';
+	menu_elements[10][1]='1';
+	menu_elements[10][2]=0x00;
+	menu_elements[11][0]='1';
+	menu_elements[11][1]='2';
+	menu_elements[11][2]=0x00;
+	set_menu(menu_elements);
+	clear_screen(SSI0);
+	screen_write("Welcome\nback!",ALIGN_CENTRE_CENTRE,SSI0);
+	SysTick_Wait50ms(100);
 	while(1)
 	{
-		clear_screen(SSI2);
-		screen_write("Hello\nMaría!",ALIGN_CENTRE_CENTRE,SSI2);
-		SysTick_Wait50ms(5);
+		clear_screen(SSI0);
+		char data=GPIO_PORTB_DATA_R&0x03;
+		if((data==0x01) && current_pos<max)
+		{
+			current_pos++;
+		}
+		else
+		{
+			if((data==0x02) && current_pos>0)
+			{
+				current_pos--;
+			}
+		}
+		show_menu(current_pos,SSI0);
+		SysTick_Wait50ms(20);
 	}
 	return 0;
 }
@@ -57,4 +103,3 @@ void SysTick_Init(void){
   NVIC_ST_CTRL_R = 0;               // disable SysTick during setup
   NVIC_ST_CTRL_R = 0x00000005;      // enable SysTick with core clock
 }
-

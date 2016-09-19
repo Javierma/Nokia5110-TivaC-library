@@ -21,7 +21,10 @@
 #include "Nokia5110.h"
 #include "inc/tm4c123gh6pm.h"
 
-
+unsigned char menu_items[12][25];
+char string[125];
+char first=0,cp=0;
+int min=0,max=5;
 /**
  * Clears the screen. Please note that if inverse mode is set it will not work as expected.
  */
@@ -857,10 +860,10 @@ void char_write(char character,short SSI)
 						case '5':
 						{
 							//5
-							lcd_write(DATA,0x1E,SSI);
-							lcd_write(DATA,0x1A,SSI);
-							lcd_write(DATA,0x1A,SSI);
-							lcd_write(DATA,0x1A,SSI);
+							lcd_write(DATA,0x8E,SSI);
+							lcd_write(DATA,0x8A,SSI);
+							lcd_write(DATA,0x8A,SSI);
+							lcd_write(DATA,0x8A,SSI);
 							lcd_write(DATA,0x72,SSI);
 							lcd_write(DATA,0x00,SSI);
 							break;
@@ -2092,4 +2095,90 @@ unsigned short get_character_length(char character)
 	return character_length;
 }
 
+/*
+ * Sets the menu for its use
+ */
+void set_menu(unsigned char menu_elements[12][25])
+{
+	char i=0,j=0;
+	for(i=0;i<12;i++)
+	{
+		for(j=0;j<25;j++)
+		{
+			menu_items[i][j]=menu_elements[i][j];
+		}
+	}
+}
+
+/*
+ * Shows the element of the menu according to the current position in list
+ */
+void show_menu(char current_position,short SSI)
+{
+	lcd_write(COMMAND,0x40+(cp-min),SSI);
+	lcd_write(COMMAND,0x80,SSI);
+	lcd_write(DATA,0x00,SSI);
+	//Uncomment next line in case you wish to make the selection bar a bit thicker
+	//lcd_write(DATA,0x00,SSI);
+	char i=0,j=0,current_pos=1;
+	if(current_position>max)
+	{
+		max=current_position;
+		min=max-5;
+	}
+	else
+	{
+		if(current_position<min)
+		{
+			min=current_position;
+			max=min+5;
+		}
+	}
+	if(current_position<=min || current_position>=max || first==0)
+	{
+		first=1;
+		string[0]=' ';
+		for(i=0;i<6;i++)
+		{
+			for(j=0;j<25;j++)
+			{
+				if(menu_items[min+i][j]!=0x00)
+				{
+					string[current_pos]=menu_items[min+i][j];
+					current_pos++;
+				}
+				else
+				{
+					string[current_pos]='\n';
+					current_pos++;
+					string[current_pos]=' ';
+					current_pos++;
+					break;
+				}
+			}
+		}
+	}
+	screen_write(string,ALIGN_LEFT_TOP,SSI0);
+	lcd_write(COMMAND,0x40+(current_position-min),SSI);
+	lcd_write(COMMAND,0x80,SSI);
+	lcd_write(DATA,0xFF,SSI);
+	//Uncomment next line in case you wish to make the selection bar a bit thicker
+	//lcd_write(DATA,0xFF,SSI);
+	cp=current_position;
+}
+
+/*
+ * Set buttons to go up and down in the menu
+ */
+void set_buttons_up_down(void)
+{
+	//PB0 (up) & PB1 (down)
+	volatile unsigned long delay;
+	SYSCTL_RCGC2_R |= 0x00000002;   //  activate clock for Port B
+	delay = SYSCTL_RCGC2_R;         //    allow time for clock to stabilize
+	GPIO_PORTB_DIR_R &= ~0x03;             // make PB0 and PB1 in
+	GPIO_PORTB_AFSEL_R &= 0x03;           // disable alt funct on PB0 and PB1
+	GPIO_PORTB_DEN_R |= 0x03;             // enable digital I/O on PB0 and PB1
+	GPIO_PORTB_AMSEL_R &= ~0x03;		//Disable analog in PB0 and PB1
+}
 
