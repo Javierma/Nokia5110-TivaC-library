@@ -6,4 +6,4 @@ This is a library for the Nokia5110 screen using TM4C123GH6PM microcontroller. T
 
 Please note that in case that you use another board the configuration will probably not be valid without making some changes.
 
-To check connections, available functions, etc, you can use the guide called 'Noia5110 Tiva C library guide'.
+To check connections, available functions, etc, you can use the guide called 'Nokia5110 Tiva C library guide'.
